@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "Example Plug-In",
+    "description": "Example plug-in using kiss-chrome-extension",
+    "version": "1.0",
+    "action": {
+      "default_popup": "main.html"
+    },
+    "content_scripts": [{
+        "matches": ["*://*.desired.domain.here/*"],
+        "js": [
+          "path_to_library/kiss/kiss_chrome_extension/content_script_utils.js"
+        ]
+    }],
+    "web_accessible_resources": [
+      {
+        "matches": ["*://*.desired.domain.here/*"],
+        "resources": [ 
+            "main.js",
+            "path_to_library/kiss/kiss_chrome_extension/message_utils.js"
+        ]
+      }
+    ]
+  }

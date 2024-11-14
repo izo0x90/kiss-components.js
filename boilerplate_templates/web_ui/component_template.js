@@ -2,6 +2,7 @@ import { BaseElement } from 'path_to_library/kiss/kiss_web_ui/base.js'
 
 export class ExampleComponent extends BaseElement {
   template = TEMPLATESTRING
+  #RESULTSID = 'data'
 
   exampleProp = null
   exampleAttrib = null
@@ -9,6 +10,9 @@ export class ExampleComponent extends BaseElement {
   buildComponent () {
     const templateInstance = this.defaultTemplate
     templateInstance.utils.updateTextById('example-id', this.exampleProp)
+    const span = document.createElement('span')
+    span.id = this.#RESULTSID
+    templateInstance.utils.appendById('main-example-id', span)
     return templateInstance
   }
 
@@ -17,10 +21,15 @@ export class ExampleComponent extends BaseElement {
     // component will be on real DOM and redrawn
     return ['example-attrib']
   }
+
+  replaceResults (resultsData) {
+    this.domUtils.updateTextbyId(this.#RESULTSID, resultsData)
+  }
 }
 
 const TEMPLATESTRING = `
-    <div id="example-id">
-        Text that will be set to exampleProp.
+    <div id="main-example-id">
+      <div id="example-id">
+      </div>
     </div>
 `
