@@ -1,0 +1,17 @@
+body {
+    width: 750px;
+    height: 550px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.title-color {
+    background: #CF4F0E;
+    background: -webkit-linear-gradient(to right, #CF4F0E 0%, #FFA724 50%, #FFE600 75%, #E08326 100%);
+    background: -moz-linear-gradient(to right, #CF4F0E 0%, #FFA724 50%, #FFE600 75%, #E08326 100%);
+    background: linear-gradient(to right, #CF4F0E 0%, #FFA724 50%, #FFE600 75%, #E08326 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
