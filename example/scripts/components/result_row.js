@@ -1,32 +1,31 @@
-import {BaseElement} from "/src/kiss/kiss_web_ui/base.js";
+import { BaseElement } from '../../../../../../../src/kiss/kiss_web_ui/base.js'
 
 export class ResultRow extends BaseElement {
-    template = TEMPLATESTRING;
+  template = TEMPLATESTRING
 
-    name = "";
-    isOdd = false;
-    rating = null;
-    selectId = null;
+  name = ''
+  isOdd = false
+  rating = null
+  selectId = null
 
-    buildComponent(){
-        const templateInstance = this.defaultTemplate;
-        if (!this.isOdd)
-            templateInstance.utils.classListById("result-instance").add("bg-light", "text-dark");
-        templateInstance.utils.updateTextById("name", this.name);
-        if (this.rating) {
-            const message_div = templateInstance.querySelector(".result-rating");
-            message_div.innerText = this.rating;
-            message_div.style.display = "block";
-        }
-       return templateInstance;
+  buildComponent () {
+    const templateInstance = this.defaultTemplate
+    if (!this.isOdd) { templateInstance.utils.classListById('result-instance').add('bg-light', 'text-dark') }
+    templateInstance.utils.updateTextById('name', this.name)
+    if (this.rating) {
+      const messageDiv = templateInstance.querySelector('.result-rating')
+      messageDiv.innerText = this.rating
+      messageDiv.style.display = 'block'
     }
+    return templateInstance
+  }
 
-    static get observedAttributes() {
-        return ["name", "is-odd", "rating", "select-id"]
-    }
+  static get observedAttributes () {
+    return ['name', 'is-odd', 'rating', 'select-id']
+  }
 }
 
-const TEMPLATESTRING =`
+const TEMPLATESTRING = `
     <div id="result-instance">
         <div class="row no-gutters">
             <div class="col-1">
@@ -41,5 +40,4 @@ const TEMPLATESTRING =`
         <div class="result-rating text-center" style="display:none">
         </div>
     </div>
-`;
-
+`

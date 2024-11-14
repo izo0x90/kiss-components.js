@@ -7,15 +7,14 @@
       "default_popup": "example/html/main.html"
     },
     "content_scripts": [{
-        "matches": ["*://google.com/*"],
+        "matches": ["*://*.google.com/*"],
         "js": [
-          "src/kiss/kiss_chrome_extension/content_script_utils.js",
-          "src/kiss/kiss_chrome_extension/content_script_init_main_module.js" 
+          "/src/kiss/kiss_chrome_extension/content_script_utils.js"
         ]
     }],
     "web_accessible_resources": [
       {
-        "matches": ["*://google.com/*"],
+        "matches": ["*://*.google.com/*"],
         "resources": [ 
             "/example/scripts/main.js",
             "/src/kiss/kiss_chrome_extension/message_utils.js",

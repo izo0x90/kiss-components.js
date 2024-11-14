@@ -1,95 +1,94 @@
-import {BaseElement, PublicUiEvent} from "/src/kiss/kiss_web_ui/base.js";
-import {ResultsList} from "/example/scripts/components/results_list.js";
-import { RESULTSTYPEPROPDATA } from "/example/scripts/commands.js";
+import { BaseElement, PublicUiEvent } from '../../../../../../../src/kiss/kiss_web_ui/base.js'
+import { ResultsList } from '../../../../../../../example/scripts/components/results_list.js'
+import { RESULTSTYPEPROPDATA } from '../../../../../../../example/scripts/commands.js'
 
 export class RequestResultsEvent extends PublicUiEvent {
-
-    static EVENTNAME = "requestResults"
-    static DataClass = class {
-        constructor(resultType, refresh=false) {
-            this.resultType = resultType;
-            this.refresh = refresh;
-        }
+  static EVENTNAME = 'requestResults'
+  static DataClass = class {
+    constructor (resultType, refresh = false) {
+      this.resultType = resultType
+      this.refresh = refresh
     }
+  }
 
-    constructor(eventDetails){
-        const eventData = { "detail": eventDetails}
-        super(RequestResultsEvent.EVENTNAME, eventData);
-    }
+  constructor (eventDetails) {
+    const eventData = { detail: eventDetails }
+    super(RequestResultsEvent.EVENTNAME, eventData)
+  }
 }
 
 export class UiApp extends BaseElement {
-    template = TEMPLATESTRING;
-    #RESULTTYPEPROPNAME = "data-result-type";
-    #RESULTSLISTID = "result-list";
+  template = TEMPLATESTRING
+  #RESULTTYPEPROPNAME = 'data-result-type'
+  #RESULTSLISTID = 'result-list'
 
-    buildComponent(){
-        const templateInstance = this.defaultTemplate;
-        const resultsList = new ResultsList();
-        resultsList.id = this.#RESULTSLISTID;
-        templateInstance.utils.appendById("results", resultsList);
-        
-        templateInstance.utils.byId("tab-1").setAttribute(this.#RESULTTYPEPROPNAME, 
-                                                                RESULTSTYPEPROPDATA.VALUES.UNRATED);
+  buildComponent () {
+    const templateInstance = this.defaultTemplate
+    const resultsList = new ResultsList()
+    resultsList.id = this.#RESULTSLISTID
+    templateInstance.utils.appendById('results', resultsList)
 
-        templateInstance.utils.byId("tab-2").setAttribute(this.#RESULTTYPEPROPNAME, 
-                                                                 RESULTSTYPEPROPDATA.VALUES.RATED);
-        return templateInstance;
+    templateInstance.utils.byId('tab-1').setAttribute(this.#RESULTTYPEPROPNAME,
+      RESULTSTYPEPROPDATA.VALUES.UNRATED)
+
+    templateInstance.utils.byId('tab-2').setAttribute(this.#RESULTTYPEPROPNAME,
+      RESULTSTYPEPROPDATA.VALUES.RATED)
+    return templateInstance
+  }
+
+  static get observedAttributes () {
+    return []
+  }
+
+  onMount () {
+    console.log('APP Mounted!')
+
+    this.domUtils.addListenerById('main-panel', 'click', this.eventHandlers.tabsClick)
+    this.domUtils.addListenerById('refresh-button', 'click', this.eventHandlers.refreshClick)
+  }
+
+  eventHandlers = {
+    tabsClick: (event) => {
+      const tabActivationClasses = ['show', 'active']
+
+      const targetTabLinkElement = event.target
+      const activeTabLinkElement = event.currentTarget.querySelector('.nav-link.active')
+      const targetTabId = this.domUtils.elementIdFromHref(targetTabLinkElement)
+      const activeTabId = this.domUtils.elementIdFromHref(activeTabLinkElement)
+      if (targetTabId && activeTabId) {
+        this.domUtils.classListById(activeTabId).remove(...tabActivationClasses)
+        this.domUtils.classListById(targetTabId).add(...tabActivationClasses)
+        activeTabLinkElement.classList.remove('active')
+        targetTabLinkElement.classList.add('active')
+        const resultType = targetTabLinkElement.getAttribute(this.#RESULTTYPEPROPNAME)
+        this.commands.requestResults(resultType, false)
+      }
+    },
+
+    refreshClick: (_) => {
+      const resultType = this.domUtils.byId(
+        'main-panel'
+      ).querySelector(
+        '.nav-link.active'
+      ).getAttribute(this.#RESULTTYPEPROPNAME)
+
+      this.commands.requestResults(resultType, true)
     }
+  }
 
-    static get observedAttributes() {
-        return []
+  commands = {
+    requestResults: (resultType, refresh) => {
+      this.domUtils.byId(this.#RESULTSLISTID).clearResults()
+      this.dispatchEvent(new RequestResultsEvent(new RequestResultsEvent.DataClass(resultType, refresh)))
+    },
+
+    updateResults: (resultsData) => {
+      this.domUtils.byId(this.#RESULTSLISTID).replaceResults(resultsData)
     }
-
-    onMount() {
-       console.log('APP Mounted!');
-
-       this.domUtils.addListenerById("main-panel", "click", this.eventHandlers.tabsClick)
-       this.domUtils.addListenerById("refresh-button", "click", this.eventHandlers.refreshClick)
-    }
-
-    eventHandlers = {
-        tabsClick: (event) => {
-            const tab_activation_classes = ["show", "active"];
-
-            const targetTabLinkElement = event.target;
-            const activeTabLinkElement = event.currentTarget.querySelector('.nav-link.active');
-            const targetTabId = this.domUtils.elementIdFromHref(targetTabLinkElement);
-            const activeTabId = this.domUtils.elementIdFromHref(activeTabLinkElement)
-            if (targetTabId && activeTabId) {
-                this.domUtils.classListById(activeTabId).remove(...tab_activation_classes);
-                this.domUtils.classListById(targetTabId).add(...tab_activation_classes);
-                activeTabLinkElement.classList.remove("active");
-                targetTabLinkElement.classList.add("active");
-                const resultType = targetTabLinkElement.getAttribute(this.#RESULTTYPEPROPNAME);
-                this.commands.requestResults(resultType, false);
-            }
-        },
-        
-        refreshClick: (_) => {
-            const resultType = this.domUtils.byId(
-                                                    "main-panel"
-                                                ).querySelector(
-                                                    ".nav-link.active"
-                                                ).getAttribute(this.#RESULTTYPEPROPNAME);
-
-            this.commands.requestResults(resultType, true);
-        } 
-    }
-
-    commands = {
-        requestResults: (resultType, refresh) => {
-            this.domUtils.byId(this.#RESULTSLISTID).clearResults();
-            this.dispatchEvent(new RequestResultsEvent(new RequestResultsEvent.DataClass(resultType, refresh)));
-        },
-
-        updateResults: (resultsData) => {
-            this.domUtils.byId(this.#RESULTSLISTID).replaceResults(resultsData);
-        }
-    }
+  }
 }
 
-const TEMPLATESTRING =`
+const TEMPLATESTRING = `
 <div class="container mw-100">  
     <ul class="nav nav-tabs mt-1" id="main-panel" role="tablist">
         <li class="nav-item">
@@ -121,4 +120,4 @@ const TEMPLATESTRING =`
 
     </div>
 </div>
-`;
+`
