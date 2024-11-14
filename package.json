@@ -1,0 +1,27 @@
+{
+  "name": "kiss-components.js",
+  "version": "1.0.0",
+  "description": "Ultra minimalistic UI/Web components and Chrome extension Javascript framework. (OMG not another one!)",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "lint": "standard",
+    "lint-fix": "standard --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/izo0x90/kiss-components.js.git"
+  },
+  "author": "Hristo Gueorguiev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/izo0x90/kiss-components.js/issues"
+  },
+  "homepage": "https://github.com/izo0x90/kiss-components.js#readme",
+  "devDependencies": {
+    "standard": "^17.1.2"
+  }
+}

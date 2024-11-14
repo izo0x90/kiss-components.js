@@ -1,52 +1,52 @@
-import {BaseElement} from "/src/kiss/kiss_web_ui/base.js";
-import {ResultRow} from "/example/scripts/components/result_row.js";
+import { BaseElement } from '../../../../../../../src/kiss/kiss_web_ui/base.js'
+import { ResultRow } from '../../../../../../../example/scripts/components/result_row.js'
 
 export class ResultsList extends BaseElement {
-    template = TEMPLATESTRING;
+  template = TEMPLATESTRING
 
-    resultsData = null;
+  resultsData = null
 
-    buildComponent(){
-        const templateInstance = this.defaultTemplate;
-        console.log(this.resultsData)
-        if (!this.resultsData) {
-            return templateInstance;
-        }
-
-        templateInstance.utils.byId("place-holder").style.display = "none";
-        for (let [index, resultData] of this.resultsData.entries()) {
-            const resultRow = new ResultRow();
-            const isOdd = index % 2;
-            resultRow.name = resultData.name;
-            resultRow.selectId = resultData.result_id;
-            resultRow.isOdd = isOdd;
-            if (resultData.rating) resultRow.rating = resultData.rating
-            templateInstance.utils.appendById("results-panel", resultRow);
-        }
-        return templateInstance;
+  buildComponent () {
+    const templateInstance = this.defaultTemplate
+    console.log(this.resultsData)
+    if (!this.resultsData) {
+      return templateInstance
     }
 
-    static get observedAttributes() {
-        return []
+    templateInstance.utils.byId('place-holder').style.display = 'none'
+    for (const [index, resultData] of this.resultsData.entries()) {
+      const resultRow = new ResultRow()
+      const isOdd = index % 2
+      resultRow.name = resultData.name
+      resultRow.selectId = resultData.result_id
+      resultRow.isOdd = isOdd
+      if (resultData.rating) resultRow.rating = resultData.rating
+      templateInstance.utils.appendById('results-panel', resultRow)
     }
+    return templateInstance
+  }
 
-    initResults(resultsData) {
-        this.resultsData = resultsData;
-    }       
+  static get observedAttributes () {
+    return []
+  }
 
-    clearResults() {
-        this.initResults(null);
-        this.domUtils.byId("place-holder").style.display = "block";
-        this.domUtils.byId("results-panel")?.remove();
-    }
+  initResults (resultsData) {
+    this.resultsData = resultsData
+  }
 
-    replaceResults(resultsData) {
-        this.initResults(resultsData);
-        this.refresh();
-    }
+  clearResults () {
+    this.initResults(null)
+    this.domUtils.byId('place-holder').style.display = 'block'
+    this.domUtils.byId('results-panel')?.remove()
+  }
+
+  replaceResults (resultsData) {
+    this.initResults(resultsData)
+    this.refresh()
+  }
 }
 
-const TEMPLATESTRING =`
+const TEMPLATESTRING = `
 <div class="row no-gutters mt-2">
     <div class="col-1">
         <button id="select-all-results">&#x2705;</button>
@@ -61,4 +61,4 @@ const TEMPLATESTRING =`
 <div id="results-panel">
     <!-- Results populated here -->
 </div
-`;
+`

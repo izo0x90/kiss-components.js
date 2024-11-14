@@ -1,22 +1,22 @@
-import {BaseElement} from "/src/kiss/kiss_web_ui/base.js";
+import { BaseElement } from '../../../../../../../src/kiss/kiss_web_ui/base.js'
 
-const DEFAULTINPUT = 'Test input string';
+const DEFAULTINPUT = 'Test input string'
 export class TestInput extends BaseElement {
-    template = TEMPLATESTRING;
-    input_data = DEFAULTINPUT;
+  template = TEMPLATESTRING
+  input_data = DEFAULTINPUT
 
-    buildComponent(){
-        const templateInstance = this.defaultTemplate;
-        templateInstance.utils.updateTextById("test-input", this.input_data);
-        return templateInstance;
-    }
+  buildComponent () {
+    const templateInstance = this.defaultTemplate
+    templateInstance.utils.updateTextById('test-input', this.input_data)
+    return templateInstance
+  }
 
-    static get observedAttributes() {
-        return []
-    }
+  static get observedAttributes () {
+    return []
+  }
 }
 
-const TEMPLATESTRING =`
+const TEMPLATESTRING = `
     <div class="input-group mt-2">
         <textarea id="test-input" class="form-control" aria-label="Test input data">
           Test input string
@@ -27,4 +27,4 @@ const TEMPLATESTRING =`
             </button>
         </div>
     </div>
-`;
+`

@@ -1,11 +1,11 @@
 export const COMMANDS = {
-    TEST: "test",
+  TEST: 'test'
 }
 
 export const RESULTSTYPEPROPDATA = {
-    VALUES: {
-        UNRATED: 0,
-        RATED: 1,
-    },
-    NAME: 'result-type'
+  VALUES: {
+    UNRATED: 0,
+    RATED: 1
+  },
+  NAME: 'result-type'
 }
